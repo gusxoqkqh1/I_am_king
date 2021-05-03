@@ -4,6 +4,7 @@ from django.views import View
 from django.http import HttpResponse, JsonResponse
 
 from .models import *
+
 class ProductDetailView(View):
     def get(self, request,product_id= None):
 
@@ -27,6 +28,7 @@ class ProductDetailView(View):
             return JsonResponse({'product':productview},status=200)
         except Exception as e:
             return JsonResponse({'message':f"error by {e}"}, status=400)
+
 class MainView(View):
     def get(self, request):
         try:

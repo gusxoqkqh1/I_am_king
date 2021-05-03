@@ -5,6 +5,7 @@ import re
 
 from django.views import View
 from django.http import JsonResponse, HttpResponse
+from my_settings import SECRET_KEY
 
 from .models import User
 
@@ -49,25 +50,20 @@ class SignUpView(View):
 
 class SignInView(View):
     def post(self, request):
-        pritn('*'*60)
         try :
 
-            pritn('*'*60)
             data =json.loads(request.body)
 
             email    = data['email']
             password = data['password']
             
             user = User.objects.get(email = email)
-            pritn('*'*60)
             
             if not email or not password : 
                 return JsonResponse({"error":"CHECK_YOUR_INPUT"}, status=404)
 
-                pritn('*'*60)
             if not User.objects.filter(email=email).exists():
                 return JsonResponse({'MESSAGE' : 'INVALID USER'}, status=404)
-                pritn('*'*60)
                 
             if not bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
                 return JsonResponse({'error':'WRONG PASSWORD'}, status=400)
